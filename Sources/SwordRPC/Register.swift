@@ -69,11 +69,7 @@ extension SwordRPC {
         free(exec)
       }
       
-      #if !os(Linux)
-      let n = readLink("/proc/self/exe", exec, Int(PATH_MAX))
-      #else
       let n = readlink("/proc/self/exe", exec, Int(PATH_MAX))
-      #endif
       guard n >= 0 else {
         print("[SwordRPC] Error getting game's execution path")
         return
