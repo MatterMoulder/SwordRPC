@@ -16,6 +16,7 @@ public struct RichPresence: Encodable {
   public var secrets = Secrets()
   public var state: String?
   public var timestamps = Timestamps()
+  public var type: ActivityType?
   
   public init() {}
 }

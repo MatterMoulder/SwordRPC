@@ -27,3 +27,12 @@ public enum JoinReply: Int {
   case yes
   case ignore
 }
+
+public enum ActivityType: Int, Codable {
+    case game = 0
+    case streaming = 1
+    case listening = 2
+    case watching = 3
+    case custom = 4
+    case competing = 5
+}
