@@ -9,63 +9,72 @@
 import Foundation
 
 public struct RichPresence: Encodable {
-  public var assets = Assets()
-  public var details: String?
-  public var instance = true
-  public var party = Party()
-  public var secrets = Secrets()
-  public var state: String?
-  public var timestamps = Timestamps()
-  public var type: ActivityType?
+    public var assets = Assets()
+    public var details: String?
+    public var instance = true
+    public var state: String?
+    public var timestamps = Timestamps()
+    public var type: ActivityType?
+    public var buttons: [Button]?
   
-  public init() {}
+    public init() {}
 }
 
 extension RichPresence {
-  public struct Timestamps: Encodable {
-    public var end: Date? = nil
-    public var start: Date? = nil
-  }
-  
-  public struct Assets: Encodable {
-    public var largeImage: String? = nil
-    public var largeText: String? = nil
-    public var smallImage: String? = nil
-    public var smallText: String? = nil
-    
-    enum CodingKeys: String, CodingKey {
-      case largeImage = "large_image"
-      case largeText = "large_text"
-      case smallImage = "small_image"
-      case smallText = "small_text"
+    public struct Timestamps: Encodable {
+        public var end: Date? = nil
+        public var start: Date? = nil
     }
-  }
   
-  public struct Party: Encodable {
-    public var id: String? = nil
-    public var max: Int? = nil
-    public var size: Int? = nil
+    public struct Assets: Encodable {
+        public var largeImage: String? = nil
+        public var largeText: String? = nil
+        public var smallImage: String? = nil
+        public var smallText: String? = nil
     
-    enum CodingKeys: String, CodingKey {
-      case id
-      case size
+        enum CodingKeys: String, CodingKey {
+            case largeImage = "large_image"
+            case largeText = "large_text"
+            case smallImage = "small_image"
+            case smallText = "small_text"
+        }
     }
+  
+    public struct Party: Encodable {
+        public var id: String? = nil
+        public var max: Int? = nil
+        public var size: Int? = nil
     
-    public func encode(to encoder: Encoder) throws {
-      var container = encoder.container(keyedBy: CodingKeys.self)
-      try container.encodeIfPresent(self.id, forKey: .id)
+        enum CodingKeys: String, CodingKey {
+            case id
+            case size
+        }
+    
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encodeIfPresent(self.id, forKey: .id)
       
-      guard let max = self.max, let size = self.size else {
-        return
-      }
+            guard let max = self.max, let size = self.size else {
+                return
+            }
       
-      try container.encode([size, max], forKey: .size)
+            try container.encode([size, max], forKey: .size)
+        }
     }
-  }
   
-  public struct Secrets: Encodable {
-    public var join: String? = nil
-    public var match: String? = nil
-    public var spectate: String? = nil
-  }
+    public struct Secrets: Encodable {
+        public var join: String? = nil
+        public var match: String? = nil
+        public var spectate: String? = nil
+    }
+    
+    public struct Button: Encodable {
+        public var label: String
+        public var url: String
+
+        public init(label: String, url: String) {
+            self.label = label
+            self.url = url
+        }
+    }
 }
